@@ -1,10 +1,10 @@
 <script>
-	export let name;
+	let title = "il Pomodoro";
+  import TaskList from './TaskList.svelte';
 </script>
 
 <main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+  <h1>{title}</h1>
   <TaskList />
 </main>
 
