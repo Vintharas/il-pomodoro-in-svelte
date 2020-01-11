@@ -1,66 +1,102 @@
+:root {
+ --black: #333;
+ --base: white;
+ --base-light: #f4f4f4;
+ --base-dark: #ddd;
+
+ --white: white;
+ --accent: orangered;
+ --accent-light: #ff4500d6;
+ --accent-dark: #e83f00;
+}
+
 html, body {
-	position: relative;
-	width: 100%;
-	height: 100%;
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 body {
-	color: #333;
-	margin: 0;
-	padding: 8px;
-	box-sizing: border-box;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  color: var(--black);
+  margin: 0;
+  padding: 8px;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-weight: 300;
 }
 
 a {
-	color: rgb(0,100,200);
-	text-decoration: none;
+  color: rgb(0,100,200);
+  text-decoration: none;
 }
 
 a:hover {
-	text-decoration: underline;
+  text-decoration: underline;
 }
 
 a:visited {
-	color: rgb(0,80,160);
+  color: rgb(0,80,160);
 }
 
 label {
-	display: block;
+  display: block;
 }
 
 input, button, select, textarea {
-	font-family: inherit;
-	font-size: inherit;
-	padding: 0.4em;
-	margin: 0 0 0.5em 0;
-	box-sizing: border-box;
-	border: 1px solid #ccc;
-	border-radius: 2px;
+  font-family: inherit;
+  font-size: 1.5em;
+  font-weight: inherit;
+  padding: 0.4em;
+  margin: 0 0 0.5em 0;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 2px;
 }
 
 input:disabled {
-	color: #ccc;
+  color: #ccc;
 }
 
 input[type="range"] {
-	height: 0;
+  height: 0;
 }
 
 button {
-	color: #333;
-	background-color: #f4f4f4;
-	outline: none;
+  background-color: var(--base);
+  border-color: var(--black);
+  color: var(--black);
+  font-size: 1.5em;
+  font-weight: inherit;
+  outline: none;
+  text-transform: uppercase;
+  transition: background-color .2s, color .2s, border-color .2s, opacity .2s;
 }
 
 button:disabled {
-	color: #999;
+  opacity: 0.5;
+}
+
+button:focus,
+button:not(:disabled):hover {
+  background-color: var(--base-light);
 }
 
 button:not(:disabled):active {
-	background-color: #ddd;
+  background-color: var(--base-dark);
 }
 
-button:focus {
-	border-color: #666;
+button.primary {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: var(--white);
+}
+
+button.primary:not(:disabled):hover {
+  background-color: var(--accent-light);
+  border-color: var(--accent-light);
+}
+
+button.primary:not(:disabled):active {
+  background-color: var(--accent-dark);
+  border-color: var(--accent-dark);
 }

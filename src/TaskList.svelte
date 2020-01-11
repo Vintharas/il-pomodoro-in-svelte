@@ -53,7 +53,7 @@
     {/each}
   </ul>
 {/if}
-<button on:click={addTask}>Add a new task</button>
+<button class="primary" on:click={addTask}>Add a new task</button>
 {#if tasks.length != 0}
   <p>
     Today you'll complete {allExpectedPomodoros} pomodoros.
