@@ -1,7 +1,10 @@
 <script>
+	import { createEventDispatcher } from 'svelte';
   import { afterUpdate } from 'svelte';
   import {Task} from './Task.js';
   import './ArrayExtensions.js';
+
+  const dispatch = createEventDispatcher();
   let taskAddedPendingFocus = false;
   let lastInput;
   let tasks = [
@@ -9,6 +12,7 @@
     new Task("buy some flowers to my wife"),
     new Task("write an article about Svelte"),
   ];
+  let activeTask;
   $: allExpectedPomodoros = tasks.reduce((acc , t) => acc + t.expectedPomodoros, 0);
 
   function addTask(){
@@ -16,6 +20,9 @@
     taskAddedPendingFocus = true;
   }
   function removeTask(task){
+    if (activeTask === task){
+      selectTask(undefined);
+    }
     tasks = tasks.remove(task);
   }
   function focusNewTask(){
@@ -24,7 +31,12 @@
       taskAddedPendingFocus = false;
     }
   }
-
+  function selectTask(task) {
+    activeTask = task;
+    dispatch('taskSelected', {
+      task: activeTask,
+    });
+  }
   afterUpdate(focusNewTask);
 </script>
 
@@ -38,6 +50,20 @@
   .pomodoros { 
     max-width: 100px;
   }
+  .pomodoros.small { 
+    max-width: 40px;
+    text-align: center;
+  }
+  .active input,
+  .active button {
+    border-color: var(--accent);
+    background-color: var(--accent);
+    color: white;
+    transition: background-color .2s, color .2s, border-color .2s;
+  }
+  .active input[disabled] {
+    opacity: 0.6;
+  }
 </style>
 
 {#if tasks.length === 0}
@@ -45,9 +71,11 @@
 {:else}
   <ul>
     {#each tasks as task}
-      <li>
+      <li class:active={activeTask === task}>
+        <button on:click={() => selectTask(task)}>&gt;</button>
         <input class="description" type="text" bind:value={task.description} bind:this={lastInput}>
         <input class="pomodoros" type="number" bind:value={task.expectedPomodoros}>
+        <input class="pomodoros small" bind:value={task.actualPomodoros} disabled >
         <button on:click={() => removeTask(task)}>X</button>
       </li>
     {/each}

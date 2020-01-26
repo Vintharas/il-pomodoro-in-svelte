@@ -8,6 +8,7 @@
   const LONG_BREAK_S = minutesToSeconds(20);
   const SHORT_BREAK_S = minutesToSeconds(5);
 
+  export let activeTask;
   let currentState = State.idle;
   let pomodoroTime = POMODORO_S;
   let completedPomodoros = 0;
@@ -35,6 +36,7 @@
   }
 
   function completePomodoro(){
+    currentTask.actualPomodoros++; 
     completedPomodoros++;
     if (completedPomodoros === 4) {
       rest(LONG_BREAK_S);
@@ -80,8 +82,8 @@
     {formatTime(pomodoroTime)}
   </time>
   <footer>
-    <button class="primary" on:click={startPomodoro} disabled={currentState !== State.idle}>start</button>
-    <button on:click={cancelPomodoro} disabled={currentState !== State.inProgress}>cancel</button>
-    <!--button on:click={completePomodoro}>complete</button-->
+    <button class="primary" on:click={startPomodoro} disabled={currentState !== State.idle || !activeTask}>start</button>
+    <button on:click={cancelPomodoro} disabled={currentState !== State.inProgress || !activeTask}>cancel</button>
   </footer>
 </section>
+

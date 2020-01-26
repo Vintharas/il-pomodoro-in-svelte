@@ -2,12 +2,17 @@
   let title = "il Pomodoro";
   import TaskList from './TaskList.svelte';
   import PomodoroTimer from './PomodoroTimer.svelte';
+  let activeTask;
+
+  function updateActiveTask(event){
+    activeTask = event.detail.task;
+  }
 </script>
 
 <main>
   <h1>{title}</h1>
-  <PomodoroTimer />
-  <TaskList />
+  <PomodoroTimer {activeTask} />
+  <TaskList on:taskSelected={updateActiveTask}/>
 </main>
 
 <style>
