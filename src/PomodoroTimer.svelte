@@ -1,4 +1,7 @@
 <script>
+  import { get } from 'svelte/store';
+  import { activeTask } from './tasksStore.js';
+
   const minutesToSeconds = (minutes) => minutes * 60;
   const secondsToMinutes = (seconds) => Math.floor(seconds / 60);
   const padWithZeroes = (number) => number.toString().padStart(2, '0');
@@ -8,7 +11,6 @@
   const LONG_BREAK_S = minutesToSeconds(20);
   const SHORT_BREAK_S = minutesToSeconds(5);
 
-  export let activeTask;
   let currentState = State.idle;
   let pomodoroTime = POMODORO_S;
   let completedPomodoros = 0;
@@ -36,7 +38,7 @@
   }
 
   function completePomodoro(){
-    currentTask.actualPomodoros++; 
+    $activeTask.actualPomodoros++; 
     completedPomodoros++;
     if (completedPomodoros === 4) {
       rest(LONG_BREAK_S);
@@ -82,8 +84,8 @@
     {formatTime(pomodoroTime)}
   </time>
   <footer>
-    <button class="primary" on:click={startPomodoro} disabled={currentState !== State.idle || !activeTask}>start</button>
-    <button on:click={cancelPomodoro} disabled={currentState !== State.inProgress || !activeTask}>cancel</button>
+    <button class="primary" on:click={startPomodoro} disabled={currentState !== State.idle || !$activeTask}>start</button>
+    <button on:click={cancelPomodoro} disabled={currentState !== State.inProgress || !$activeTask}>cancel</button>
   </footer>
 </section>
 

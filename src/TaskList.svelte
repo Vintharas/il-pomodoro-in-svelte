@@ -1,10 +1,10 @@
 <script>
-	import { createEventDispatcher } from 'svelte';
-  import { afterUpdate } from 'svelte';
+  import { afterUpdate} from 'svelte';
+  import { get } from 'svelte/store';
   import {Task} from './Task.js';
   import './ArrayExtensions.js';
+  import {activeTask} from './tasksStore.js';
 
-  const dispatch = createEventDispatcher();
   let taskAddedPendingFocus = false;
   let lastInput;
   let tasks = [
@@ -12,7 +12,6 @@
     new Task("buy some flowers to my wife"),
     new Task("write an article about Svelte"),
   ];
-  let activeTask;
   $: allExpectedPomodoros = tasks.reduce((acc , t) => acc + t.expectedPomodoros, 0);
 
   function addTask(){
@@ -20,7 +19,7 @@
     taskAddedPendingFocus = true;
   }
   function removeTask(task){
-    if (activeTask === task){
+    if ($activeTask === task){
       selectTask(undefined);
     }
     tasks = tasks.remove(task);
@@ -32,10 +31,7 @@
     }
   }
   function selectTask(task) {
-    activeTask = task;
-    dispatch('taskSelected', {
-      task: activeTask,
-    });
+    activeTask.set(task);
   }
   afterUpdate(focusNewTask);
 </script>
@@ -71,7 +67,7 @@
 {:else}
   <ul>
     {#each tasks as task}
-      <li class:active={activeTask === task}>
+      <li class:active={$activeTask === task}>
         <button on:click={() => selectTask(task)}>&gt;</button>
         <input class="description" type="text" bind:value={task.description} bind:this={lastInput}>
         <input class="pomodoros" type="number" bind:value={task.expectedPomodoros}>
