@@ -31,7 +31,7 @@
     }
   }
   function selectTask(task) {
-    activeTask.set(task);
+    $activeTask = task;
   }
   afterUpdate(focusNewTask);
 </script>
